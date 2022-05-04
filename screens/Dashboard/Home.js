@@ -9,7 +9,12 @@ import {
   dummyData,
 } from "../../constants";
 import { FlatList } from "react-native-gesture-handler";
-import { IconButton } from "../../components";
+import {
+  IconButton,
+  TextButton,
+  VerticalCourseCard,
+  LineDivider,
+} from "../../components";
 
 const Home = () => {
   function renderHeader() {
@@ -29,6 +34,7 @@ const Home = () => {
             flex: 1,
           }}
         >
+          {/* font issue */}
           <Text style={{ ...FONTS.h2 }}>Hello, Youpil!</Text>
           <Text
             style={{
@@ -55,7 +61,7 @@ const Home = () => {
       <ImageBackground
         source={images.featured_bg_image}
         style={{
-          alignItems: "flex-end",
+          alignItems: "flex-start",
           marginTop: SIZES.padding,
           marginHorizontal: SIZES.padding,
           padding: 15,
@@ -63,9 +69,92 @@ const Home = () => {
         imageStyle={{
           borderRadius: SIZES.radius,
         }}
-      ></ImageBackground>
+      >
+        {/* info */}
+        <View>
+          <Text
+            style={{
+              color: COLORS.white,
+              ...FONTS.body2,
+            }}
+          >
+            How To
+          </Text>
+          <Text
+            style={{
+              color: COLORS.white,
+              ...FONTS.h2,
+            }}
+          >
+            Make your brand more visible with our checklist
+          </Text>
+          <Text
+            style={{
+              marginTop: SIZES.radius,
+              color: COLORS.white,
+              ...FONTS.body4,
+              paddingBottom: 30,
+            }}
+          >
+            By Youpil
+          </Text>
+        </View>
+        {/* image */}
+        {/* <Image
+          source={require("../../assets/images/start_learning.png")}
+          style={{
+            width: "100",
+            height: 110,
+            marginTop: SIZES.padding,
+          }}
+        /> */}
+
+        {/* Button */}
+        <TextButton
+          label="Start Learning"
+          contentContainerStyle={{
+            height: 40,
+            paddingHorizontal: SIZES.padding,
+            borderRadius: 20,
+            backgroundColor: COLORS.white,
+          }}
+          labelStyle={{ color: COLORS.black }}
+        />
+      </ImageBackground>
     );
   }
+  function vid() {
+    <View>
+      <Text>heol</Text>
+    </View>;
+  }
+  function renderCourses() {
+    return (
+      <FlatList
+        horizontal
+        data={dummyData.courses_list_1}
+        listKey="Courses"
+        keyExtractor={(item) => `Courses-${item.id}`}
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={{
+          marginTop: SIZES.padding,
+        }}
+        renderItem={({ item, index }) => (
+          <VerticalCourseCard
+            containerStyle={{
+              marginLeft: index == 0 ? SIZES.padding : SIZES.radius,
+              marginRight:
+                index == dummyData.courses_list_1.length - 1
+                  ? SIZES.padding
+                  : 0,
+            }}
+            course={item}
+          />
+        )}
+      />
+    );
+  }
+
   return (
     <View
       style={{
@@ -85,6 +174,14 @@ const Home = () => {
       >
         {/* Start Learning */}
         {renderStartLearning()}
+
+        {/* renderCourses */}
+        {renderCourses()}
+        <LineDivider
+          lineStyle={{
+            marginVertical: SIZES.padding,
+          }}
+        />
       </ScrollView>
     </View>
   );

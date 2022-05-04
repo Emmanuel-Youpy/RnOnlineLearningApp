@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TouchableOpacity, Image, Animated } from "react-native";
-import { Home, Profile, Search } from "../../screens";
+import { Home, Profile, Search } from "../index";
+// import { Profile } from "./Profile";
+// import { Search } from "./Search";
+// import { Home } from "./Home";
 import { COLORS, SIZES, FONTS, constants } from "../../constants";
 import { Shadow } from "react-native-shadow-2";
 
