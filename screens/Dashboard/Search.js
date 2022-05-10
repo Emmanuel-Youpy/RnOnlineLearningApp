@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text } from "react-native";
+import { View, Text, Image, TextInput } from "react-native";
 import { Shadow } from "react-native-shadow-2";
 import { FlatList } from "react-native-gesture-handler";
 import { TextButton, CategoryCard } from "../../components";
@@ -14,6 +14,11 @@ import Animated, {
 
 const Search = () => {
   const scrollViewRef = React.useRef();
+
+  const scrollY = useSharedValue(0);
+  const onScroll = useAnimatedScrollHandler((event) => {
+    scrollY.value = event.contentOffset.y;
+  });
   function renderTopSearches() {
     return (
       <View
@@ -102,6 +107,74 @@ const Search = () => {
       </View>
     );
   }
+
+  function renderSearchBar() {
+    const inputRange = [0, 55];
+    const searchBarAnimatedStyle = useAnimatedStyle(() => {
+      return {
+        height: interpolate(
+          scrollY.value,
+          inputRange,
+          [55, 0],
+          Extrapolate.CLAMP
+        ),
+        opacity: interpolate(
+          scrollY.value,
+          inputRange,
+          [1, 0],
+          Extrapolate.CLAMP
+        ),
+      };
+    });
+    return (
+      <Animated.View
+        style={[
+          {
+            position: "absolute",
+            top: 50,
+            left: 0,
+            right: 0,
+            paddingHorizontal: SIZES.padding,
+            height: 50,
+          },
+          searchBarAnimatedStyle,
+        ]}
+      >
+        <Shadow>
+          <View
+            style={{
+              flex: 1,
+              flexDirection: "row",
+              alignItems: "center",
+              width: SIZES.width - SIZES.padding * 2,
+              paddingHorizontal: SIZES.radius,
+              borderRadius: SIZES.radius,
+              backgroundColor: COLORS.white,
+            }}
+          >
+            <Image
+              source={icons.search}
+              style={{
+                width: 25,
+                height: 25,
+                tintColor: COLORS.gray40,
+              }}
+            />
+            <TextInput
+              style={{
+                flex: 1,
+                marginLeft: SIZES.base,
+                ...FONTS.h4,
+              }}
+              value=""
+              placeholder="Search For Topics, courses & Educators"
+              placeholderTextColor={COLORS.gray}
+            />
+          </View>
+        </Shadow>
+      </Animated.View>
+    );
+  }
   return (
     <View
       style={{
@@ -117,14 +190,28 @@ const Search = () => {
         }}
         showsHorizontalScrollIndicator={false}
         keyboardDismissMode="on-drag"
-        // onScroll
-        // onScrollEndDrag
+        onScroll={onScroll}
+        onScrollEndDrag={(event) => {
+          if (
+            event.nativeEvent.contentOffset.y > 10 &&
+            event.nativeEvent.contentOffset.y < 50
+          ) {
+            scrollViewRef.current?.scrollTo({
+              x: 0,
+              y: 60,
+              animated: true,
+            });
+          }
+        }}
       >
         {/* Top Searches */}
         {renderTopSearches()}
         {/* Browse Category */}
         {renderBrowseCategories()}
       </Animated.ScrollView>
+
+      {/* Search Bar */}
+      {renderSearchBar()}
     </View>
   );
 };

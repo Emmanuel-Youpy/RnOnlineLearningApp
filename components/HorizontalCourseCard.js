@@ -7,7 +7,7 @@ import {
   Image,
 } from "react-native";
 import { COLORS, SIZES, FONTS, icons } from "../constants";
-import { IconLabel } from "../components";
+import { IconLabel } from "./index";
 
 const HorizontalCourseCard = ({ containerStyle, course }) => {
   return (
