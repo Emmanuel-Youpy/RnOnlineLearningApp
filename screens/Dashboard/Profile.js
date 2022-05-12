@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
@@ -18,6 +18,9 @@ import {
 } from "../../components";
 
 const Profile = () => {
+  const [newCourseNotification, setNewCourseNotification] = useState(false);
+  const [studyReminder, setStudyReminder] = useState(false);
+
   function renderHeader() {
     return (
       <View
@@ -210,7 +213,24 @@ const Profile = () => {
       <View style={styles.profileSectionContainer}>
         <ProfileValue icon={icons.star_1} value="Pages" />
         <LineDivider />
-        <ProfileRadioButton icon={icons.new_icon} />
+        <ProfileRadioButton
+          icon={icons.new_icon}
+          label="New Course Notifications"
+          isSelected={newCourseNotification}
+          onPress={() => {
+            setNewCourseNotification(!newCourseNotification);
+          }}
+        />
+        <LineDivider />
+        <ProfileRadioButton
+          icon={icons.reminder}
+          label="Study Reminder"
+          isSelected={studyReminder}
+          onPress={() => {
+            setStudyReminder(!studyReminder);
+          }}
+        />
+        <LineDivider />
       </View>
     );
   }
