@@ -11,8 +11,12 @@ import Animated, {
   useAnimatedStyle,
   useSharedValue,
 } from "react-native-reanimated";
+import { connect } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
-const Search = () => {
+const Search = ({ appTheme }) => {
+  const navigation = useNavigation();
+
   const scrollViewRef = React.useRef();
 
   const scrollY = useSharedValue(0);
@@ -28,6 +32,7 @@ const Search = () => {
       >
         <Text
           style={{
+            color: appTheme?.textColor,
             marginHorizontal: SIZES.padding,
             ...FONTS.h2,
           }}
@@ -58,8 +63,9 @@ const Search = () => {
                 backgroundColor: COLORS.gray10,
               }}
               labelStyle={{
-                color: COLORS.gray50,
+                // color: appTheme?.textColor,
                 ...FONTS.h3,
+                color: "black",
               }}
             />
           )}
@@ -72,11 +78,14 @@ const Search = () => {
     return (
       <View
         style={{
+          backgroundColor: appTheme?.backgroundColor3,
           marginTop: SIZES.padding,
         }}
       >
         <Text
           style={{
+            color: appTheme?.textColor,
+
             marginHorizontal: SIZES.padding,
             ...FONTS.h2,
           }}
@@ -94,6 +103,7 @@ const Search = () => {
           }}
           renderItem={({ item, index }) => (
             <CategoryCard
+              sharedElementPrefix="Search"
               category={item}
               containerStyle={{
                 height: 130,
@@ -101,6 +111,12 @@ const Search = () => {
                 marginTop: SIZES.radius,
                 marginLeft: (index + 1) % 2 == 0 ? SIZES.radius : SIZES.padding,
               }}
+              onPress={() =>
+                navigation.navigate("CourseListing", {
+                  category: item,
+                  sharedElementPrefix: "Search",
+                })
+              }
             />
           )}
         />
@@ -149,7 +165,7 @@ const Search = () => {
               width: SIZES.width - SIZES.padding * 2,
               paddingHorizontal: SIZES.radius,
               borderRadius: SIZES.radius,
-              backgroundColor: COLORS.white,
+              backgroundColor: appTheme?.backgroundColor3,
             }}
           >
             <Image
@@ -168,7 +184,7 @@ const Search = () => {
               }}
               value=""
               placeholder="Search For Topics, courses & Educators"
-              placeholderTextColor={COLORS.gray}
+              placeholderTextColor={appTheme?.textColor3}
             />
           </View>
         </Shadow>
@@ -179,7 +195,7 @@ const Search = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.white,
+        backgroundColor: appTheme?.backgroundColor3,
       }}
     >
       <Animated.ScrollView
@@ -216,4 +232,14 @@ const Search = () => {
   );
 };
 
-export default Search;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Search);

@@ -17,6 +17,8 @@ import {
   CategoryCard,
   HorizontalCourseCard,
 } from "../../components";
+import { connect } from "react-redux";
+import { useNavigation } from "@react-navigation/native";
 
 const Section = ({ containerStyle, title, onPress, children }) => {
   return (
@@ -55,6 +57,7 @@ const Section = ({ containerStyle, title, onPress, children }) => {
 };
 
 const Home = () => {
+  const navigation = useNavigation();
   function renderHeader() {
     return (
       <View
@@ -207,12 +210,19 @@ const Home = () => {
           }}
           renderItem={({ item, index }) => (
             <CategoryCard
+              sharedElementPrefix="Home"
               category={item}
               containerStyle={{
                 marginLeft: index == 0 ? SIZES.padding : SIZES.base,
                 marginRight:
                   index == dummyData.categories.length - 1 ? SIZES.padding : 0,
               }}
+              onPress={() =>
+                navigation.navigate("CourseListing", {
+                  category: item,
+                  sharedElementPrefix: "Home",
+                })
+              }
             />
           )}
         />
