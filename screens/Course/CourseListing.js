@@ -107,6 +107,23 @@ const CourseListing = ({ navigation, route }) => {
         ],
       };
     });
+
+    const headerShowOnScrollAnimatedStyle = useAnimatedStyle(() => {
+      return {
+        opacity: interpolate(scrollY.value, [80, 0], [1, 0], Extrapolate.CLAMP),
+        transform: [
+          {
+            translateY: interpolate(
+              scrollY.value,
+              inputRange,
+              [50, 130],
+              Extrapolate.CLAMP
+            ),
+          },
+        ],
+      };
+    });
+
     return (
       <Animated.View
         style={[
@@ -137,6 +154,28 @@ const CourseListing = ({ navigation, route }) => {
           />
         </SharedElement>
         {/* Title */}
+        <Animated.View
+          style={[
+            {
+              position: "absolute",
+              top: -80,
+              left: 0,
+              right: 0,
+            },
+            headerShowOnScrollAnimatedStyle,
+          ]}
+        >
+          <Text
+            style={{
+              textAlign: "center",
+              color: COLORS.white,
+              ...FONTS.h2,
+            }}
+          >
+            {category?.title}
+          </Text>
+        </Animated.View>
+
         <Animated.View
           style={[
             {
