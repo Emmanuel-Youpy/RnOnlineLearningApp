@@ -8,6 +8,7 @@ import CategoryCard from "./CategoryCard";
 import ProfileValue from "./ProfileValue";
 import HorizontalCourseCard from "./HorizontalCourseCard";
 import ProfileRadioButton from "./ProfileRadioButton";
+import FilterModel from "./FilterModel";
 
 export {
   IconButton,
@@ -20,4 +21,5 @@ export {
   ProgressBar,
   ProfileValue,
   ProfileRadioButton,
+  FilterModel,
 };

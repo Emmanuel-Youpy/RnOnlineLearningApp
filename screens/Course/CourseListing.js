@@ -7,6 +7,7 @@ import {
   BackHandler,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import Animated, {
   Extrapolate,
@@ -22,6 +23,7 @@ import {
   IconButton,
   HorizontalCourseCard,
   LineDivider,
+  FilterModel,
 } from "../../components";
 import {
   COLORS,
@@ -50,6 +52,8 @@ const CourseListing = ({ navigation, route }) => {
   });
 
   const headerSharedValue = useSharedValue(80);
+  const filterModalSharedValue1 = useSharedValue(SIZES.height);
+  const filterModalSharedValue2 = useSharedValue(SIZES.height);
 
   // Handler
   backHandler = () => {
@@ -286,7 +290,42 @@ const CourseListing = ({ navigation, route }) => {
                 backgroundColor: COLORS.primary,
               }}
             >
-              <MaterialIcons name="filter-list" size={24} color="white" />
+              <TouchableOpacity
+                onPress={() => {
+                  filterModalSharedValue1.value = withTiming(0, {
+                    duration: 100,
+                  });
+                  filterModalSharedValue2.value = withDelay(
+                    100,
+                    withTiming(0, { duration: 500 })
+                  );
+                }}
+              >
+                <Text>
+                  <MaterialIcons name="filter-list" size={24} color="white" />
+                </Text>
+              </TouchableOpacity>
+              {/* 
+              <IconButton
+                icon={icons.filter}
+                iconStyle={{
+                  width: 40,
+                  height: 40,
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderRadius: 10,
+                  backgroundColor: COLORS.primary,
+                }}
+                onPress={() => {
+                  filterModalSharedValue1.value = withTiming(0, {
+                    duration: 100,
+                  });
+                  filterModalSharedValue2.value = withDelay(
+                    100,
+                    withTiming(0, { duration: 500 })
+                  );
+                }}
+              /> */}
             </View>
           </View>
         }
@@ -321,6 +360,13 @@ const CourseListing = ({ navigation, route }) => {
       {renderResults()}
       {/* Header */}
       {renderHeader()}
+
+      {/* Filter Model */}
+
+      <FilterModel
+        filterModalSharedValue1={filterModalSharedValue1}
+        filterModalSharedValue2={filterModalSharedValue2}
+      />
     </View>
   );
 
