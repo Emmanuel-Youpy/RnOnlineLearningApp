@@ -6,7 +6,12 @@ import Animated, {
   withDelay,
   withTiming,
 } from "react-native-reanimated";
-import { IconButton, HorizontalCourseCard, LineDivider } from "../components";
+import {
+  IconButton,
+  HorizontalCourseCard,
+  LineDivider,
+  TwoPointSlider,
+} from "../components";
 import { COLORS, FONTS, SIZES, icons, constants } from "../constants";
 import TextButton from "./TextButton";
 
@@ -141,6 +146,49 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
       ],
     };
   });
+
+  function renderFooter() {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          height: 50,
+          marginBottom: 30,
+          paddingHorizontal: SIZES.padding,
+        }}
+      >
+        {/* Reset */}
+        <TextButton
+          label="Reset"
+          contentContainerStyle={{
+            flex: 1,
+            boderRadius: SIZES.radius,
+            borderWidth: 1,
+            backgroundColor: null,
+          }}
+          labelStyle={{
+            color: COLORS.black,
+            ...FONTS.h3,
+          }}
+        />
+        {/* Apply */}
+        <TextButton
+          label="Apply"
+          contentContainerStyle={{
+            flex: 1,
+            marginLeft: SIZES.radius,
+            boderRadius: SIZES.radius,
+            boderWidth: 2,
+            boderColor: COLORS.primary,
+          }}
+          labelStyle={{
+            color: COLORS.white,
+            ...FONTS.h3,
+          }}
+        />
+      </View>
+    );
+  }
 
   return (
     // Main container
@@ -298,7 +346,91 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
                 })}
               </View>
             </View>
+            {/* Created Within */}
+            <View
+              style={{
+                marginTop: SIZES.radius,
+              }}
+            >
+              <Text
+                style={{
+                  ...FONTS.h3,
+                  fontWeight: "bold",
+                }}
+              >
+                Created Within
+              </Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: "row",
+                  flexWrap: "wrap",
+                }}
+              >
+                {constants.created_within.map((item, index) => {
+                  return (
+                    <TextButton
+                      key={`CreatedWithin-${index}`}
+                      label={item?.label}
+                      contentContainerStyle={{
+                        height: 45,
+                        paddingHorizontal: SIZES.radius,
+                        marginLeft: index % 3 == 0 ? 0 : SIZES.radius,
+                        marginTop: SIZES.radius,
+                        boderWidth: 1,
+                        boderRadius: SIZES.radius,
+                        boderColor: COLORS.gray20,
+                        backgroundColor:
+                          item?.id == selectedCreateWithin
+                            ? COLORS.primary3
+                            : null,
+                      }}
+                      labelStyle={{
+                        color:
+                          item?.id == selectedCreateWithin
+                            ? COLORS.white
+                            : COLORS.black,
+                        ...FONTS.h3,
+                      }}
+                      onPress={() => {
+                        setSelectedCreateWithin(item.id);
+                      }}
+                    />
+                  );
+                })}
+              </View>
+            </View>
+            {/* Class Length */}
+            <View
+              style={{
+                marginTop: SIZES.padding,
+              }}
+            >
+              <Text
+                style={{
+                  ...FONTS.h3,
+                  fontWeight: "bold",
+                }}
+              >
+                Created Within
+              </Text>
+              <View
+                style={{
+                  alignItems: "center",
+                }}
+              >
+                <TwoPointSlider
+                  values={[120, 50]}
+                  min={15}
+                  max={60}
+                  postfix="min"
+                  onValuesChange={(values) => console.log(values)}
+                />
+              </View>
+            </View>
           </ScrollView>
+          {/* Footer */}
+          {renderFooter()}
         </Animated.View>
       </Animated.View>
     </Animated.View>
