@@ -1,7 +1,7 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 // import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { MainLayout, CourseListing } from "./screens";
+import { MainLayout, CourseListing, CourseDetail } from "./screens";
 
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
@@ -53,6 +53,7 @@ const App = () => {
             component={CourseListing}
             options={() => options}
           />
+          <Stack.Screen name="CourseDetail" component={CourseDetail} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

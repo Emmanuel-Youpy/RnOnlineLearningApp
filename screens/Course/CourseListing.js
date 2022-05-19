@@ -305,27 +305,6 @@ const CourseListing = ({ navigation, route }) => {
                   <MaterialIcons name="filter-list" size={24} color="white" />
                 </Text>
               </TouchableOpacity>
-              {/* 
-              <IconButton
-                icon={icons.filter}
-                iconStyle={{
-                  width: 40,
-                  height: 40,
-                  alignItems: "center",
-                  justifyContent: "center",
-                  borderRadius: 10,
-                  backgroundColor: COLORS.primary,
-                }}
-                onPress={() => {
-                  filterModalSharedValue1.value = withTiming(0, {
-                    duration: 100,
-                  });
-                  filterModalSharedValue2.value = withDelay(
-                    100,
-                    withTiming(0, { duration: 500 })
-                  );
-                }}
-              /> */}
             </View>
           </View>
         }
@@ -336,6 +315,9 @@ const CourseListing = ({ navigation, route }) => {
               marginVertical: SIZES.padding,
               marginTop: index == 0 ? SIZES.radius : SIZES.padding,
             }}
+            onPress={() =>
+              navigation.navigate("CourseDetail", { selectedCourse: item })
+            }
           />
         )}
         ItemSeparatorComponent={() => (
