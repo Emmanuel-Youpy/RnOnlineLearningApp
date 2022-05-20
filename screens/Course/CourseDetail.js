@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -23,12 +23,125 @@ import { MaterialIcons } from "@expo/vector-icons";
 // import Video from "react-native-video";
 import { Video, AVPlaybackStatus } from "expo-av";
 
+const course_details_tabs = constants.course_details_tabs.map(
+  (course_details_tab) => ({
+    ...course_details_tab,
+    ref: React.createRef(),
+  })
+);
+
+const TabIndicator = ({ measureLayout, scrollX }) => {
+  const inputRange = course_details_tabs.map((_, i) => i * SIZES.width);
+
+  const tabIndicatorWidth = scrollX.interpolate({
+    inputRange,
+    outputRange: measureLayout.map((measure) => measure.width),
+  });
+  const translateX = scrollX.interpolate({
+    inputRange,
+    outputRange: measureLayout.map((measure) => measure.x),
+  });
+
+  return (
+    <Animated.View
+      style={{
+        // Position: "absolute",
+        bottom: -58,
+        height: 4,
+
+        width: tabIndicatorWidth,
+        borderRadius: SIZES.radius,
+        backgroundColor: COLORS.primary,
+        transform: [
+          {
+            translateX,
+          },
+        ],
+      }}
+    />
+  );
+};
+
+const Tabs = ({ scrollX, onTabPress }) => {
+  const [measureLayout, setMeasureLayout] = React.useState([]);
+  const containerRef = React.useRef();
+
+  useEffect(() => {
+    let nl = [];
+
+    course_details_tabs.forEach((course_details_tab) => {
+      course_details_tab?.ref?.current?.measureLayout(
+        containerRef.current,
+        (x, y, width, height) => {
+          nl.push({
+            x,
+            y,
+            width,
+            height,
+          });
+          if (nl.length === course_details_tabs.length) {
+            setMeasureLayout(nl);
+          }
+        }
+      );
+    });
+  }, [containerRef.current]);
+
+  return (
+    <View
+      ref={containerRef}
+      style={{
+        flex: 1,
+
+        flexDirection: "row",
+        // left: -80,
+      }}
+    >
+      {/* Tab Indicator */}
+      {/* {measureLayout.length > 0 && (
+        <TabIndicator measureLayout={measureLayout} scrollX={scrollX} />
+      )} */}
+
+      {/* Tabs */}
+      {course_details_tabs.map((item, index) => {
+        return (
+          <TouchableOpacity
+            key={`Tab-${index}`}
+            ref={item.ref}
+            style={{
+              flex: 1,
+              paddingHorizontal: 15,
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+            onPress={() => {
+              onTabPress(index);
+            }}
+          >
+            <Text
+              style={{
+                ...FONTS.h3,
+                fontSize: SIZES.height > 800 ? 18 : 17,
+              }}
+            >
+              {item.label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+};
+
 const CourseDetail = ({ navigation, route }) => {
   const { selectedCourse } = route.params;
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
 
   const [playVideo, setPlayVideo] = useState(false);
+
+  const flatListRef = React.useRef();
+  const scrollX = React.useRef(new Animated.Value(0)).current;
   function renderHeaderComponent() {
     return (
       <>
@@ -89,6 +202,12 @@ const CourseDetail = ({ navigation, route }) => {
       </>
     );
   }
+
+  const onTabPress = React.useCallback((tabIndex) =>
+    flatListRef?.current?.scrollToOffset({
+      offset: tabIndex * SIZES.width,
+    })
+  );
 
   function renderHeader() {
     return (
@@ -187,13 +306,50 @@ const CourseDetail = ({ navigation, route }) => {
         <View
           style={{
             height: 60,
-            backgroundColor: "red",
           }}
-        ></View>
+        >
+          <Tabs scrollX={scrollX} onTabPress={onTabPress} />
+        </View>
         {/* Line Divider */}
         <LineDivider
           lineStyle={{
             backgroundColor: COLORS.gray20,
+          }}
+        />
+        {/* Content */}
+        <Animated.FlatList
+          ref={flatListRef}
+          horizontal
+          pagingEnabled
+          snapToAlignment="center"
+          snapToInterval={SIZES.width}
+          decelerationRate="fast"
+          keyboardDismissMode="on-drag"
+          showsHorizontalScrollIndicator={false}
+          data={constants.course_details_tabs}
+          keyExtractor={(item) => `CourseDetailTabs-${item.id}`}
+          onScroll={Animated.event(
+            [
+              {
+                nativeEvent: { contentOffset: { x: scrollX } },
+              },
+            ],
+            {
+              useNativeDriver: false,
+            }
+          )}
+          renderItem={({ item, index }) => {
+            return (
+              <View
+                style={{
+                  width: SIZES.width,
+                }}
+              >
+                {index == 0 && <Text>Chapters</Text>}
+                {index == 1 && <Text>Files</Text>}
+                {index == 2 && <Text>Discussion</Text>}
+              </View>
+            );
           }}
         />
       </View>
@@ -214,7 +370,6 @@ const CourseDetail = ({ navigation, route }) => {
 
       {/* Render Content */}
       {renderContent()}
-      <Text>Course Detail</Text>
     </View>
   );
 };
