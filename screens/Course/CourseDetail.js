@@ -22,6 +22,7 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { MaterialIcons } from "@expo/vector-icons";
 // import Video from "react-native-video";
 import { Video, AVPlaybackStatus } from "expo-av";
+import CourseChapters from "./CourseTabs/CourseChapters";
 
 const course_details_tabs = constants.course_details_tabs.map(
   (course_details_tab) => ({
@@ -345,7 +346,7 @@ const CourseDetail = ({ navigation, route }) => {
                   width: SIZES.width,
                 }}
               >
-                {index == 0 && <Text>Chapters</Text>}
+                {index == 0 && <CourseChapters />}
                 {index == 1 && <Text>Files</Text>}
                 {index == 2 && <Text>Discussion</Text>}
               </View>
