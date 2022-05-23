@@ -10,6 +10,7 @@ import HorizontalCourseCard from "./HorizontalCourseCard";
 import ProfileRadioButton from "./ProfileRadioButton";
 import FilterModel from "./FilterModel";
 import TwoPointSlider from "./TwoPointSlider";
+import IconLabelButton from "./IconLabelButton";
 
 export {
   IconButton,
@@ -24,4 +25,5 @@ export {
   ProfileRadioButton,
   FilterModel,
   TwoPointSlider,
+  IconLabelButton,
 };
