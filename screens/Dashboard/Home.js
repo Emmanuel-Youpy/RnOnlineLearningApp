@@ -17,46 +17,49 @@ import {
   CategoryCard,
   HorizontalCourseCard,
 } from "../../components";
-import { connect } from "react-redux";
 import { useNavigation } from "@react-navigation/native";
+import { connect } from "react-redux";
 
-const Section = ({ containerStyle, title, onPress, children }) => {
-  return (
-    <View
-      style={{
-        ...containerStyle,
-      }}
-    >
+const Home = ({ appTheme, toggleTheme }) => {
+  ///////////////////////
+  const Section = ({ containerStyle, title, onPress, children }) => {
+    return (
       <View
         style={{
-          flexDirection: "row",
-          paddingHorizontal: SIZES.padding,
+          ...containerStyle,
         }}
       >
-        <Text
+        <View
           style={{
-            flex: 1,
-            ...FONTS.h2,
+            flexDirection: "row",
+            paddingHorizontal: SIZES.padding,
           }}
         >
-          {title}
-        </Text>
-        <TextButton
-          contentContainerStyle={{
-            width: 80,
-            borderRadius: 30,
-            backgroundColor: COLORS.primary,
-          }}
-          label="See All"
-          onPress={onPress}
-        />
+          <Text
+            style={{
+              flex: 1,
+              ...FONTS.h2,
+              color: appTheme.textColor,
+            }}
+          >
+            {title}
+          </Text>
+          <TextButton
+            contentContainerStyle={{
+              width: 80,
+              borderRadius: 30,
+              backgroundColor: COLORS.primary,
+            }}
+            label="See All"
+            onPress={onPress}
+          />
+        </View>
+        {children}
       </View>
-      {children}
-    </View>
-  );
-};
+    );
+  };
 
-const Home = () => {
+  /////////////////////////////
   const navigation = useNavigation();
   function renderHeader() {
     return (
@@ -76,7 +79,9 @@ const Home = () => {
           }}
         >
           {/* font issue */}
-          <Text style={{ ...FONTS.h2 }}>Hello, Youpil!</Text>
+          <Text style={{ ...FONTS.h2, color: appTheme.textColor }}>
+            Hello, Youpil!
+          </Text>
           <Text
             style={{
               color: COLORS.gray50,
@@ -90,7 +95,7 @@ const Home = () => {
         <IconButton
           icon={icons.notification}
           iconStyle={{
-            tintColor: COLORS.black,
+            tintColor: appTheme.tintColor,
           }}
         />
       </View>
@@ -179,6 +184,7 @@ const Home = () => {
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={{
           marginTop: SIZES.padding,
+          color: "red",
         }}
         renderItem={({ item, index }) => (
           <VerticalCourseCard
@@ -271,7 +277,7 @@ const Home = () => {
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.white,
+        backgroundColor: appTheme.backgroundColor3,
       }}
     >
       {/* Header */}
@@ -305,4 +311,13 @@ const Home = () => {
   );
 };
 
-export default Home;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

@@ -127,20 +127,22 @@ const CourseFiles = () => {
   }
 
   return (
-    <ScrollView
-      contentContainerStyle={{
-        padding: SIZES.padding,
-      }}
-    >
+    <View>
       <View style={{ alignItems: "center" }}>
         <Text style={{ fontSize: 12 }}>Files</Text>
       </View>
-      {/* Students */}
-      {renderStudents()}
+      <ScrollView
+        contentContainerStyle={{
+          padding: SIZES.padding,
+        }}
+      >
+        {/* Students */}
+        {renderStudents()}
 
-      {/* Files */}
-      {renderFiles()}
-    </ScrollView>
+        {/* Files */}
+        {renderFiles()}
+      </ScrollView>
+    </View>
   );
 };
 

@@ -248,6 +248,9 @@ const CourseChapters = () => {
 
   return (
     <ScrollView>
+      <View style={{ alignItems: "center" }}>
+        <Text style={{ fontSize: 12 }}>Chapters</Text>
+      </View>
       {/* Header */}
       {renderHeader()}
       {/* LineDivider */}
