@@ -1,5 +1,6 @@
 import IconButton from "./IconButton";
 import TextButton from "./TextButton";
+import TextButtonTwo from "./TextButtonTwo";
 import VerticalCourseCard from "./VerticalCourseCard";
 import IconLabel from "./IconLabel";
 import LineDivider from "./LineDivider";

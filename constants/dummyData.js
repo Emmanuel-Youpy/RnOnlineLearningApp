@@ -55,7 +55,7 @@ const courses_list_2 = [
     ratings: 4.9,
     price: 75,
     is_favourite: true,
-    thumbnail: require("../assets/images/thumbnail_1.png"),
+    thumbnail: require("../assets/images/lcrnimg1.jpg"),
   },
   {
     id: 1,
@@ -95,7 +95,7 @@ const courses_list_2 = [
     ratings: 4.9,
     price: 75,
     is_favourite: false,
-    thumbnail: require("../assets/images/thumbnail_4.png"),
+    thumbnail: require("../assets/images/lcrnimg1.jpg"),
   },
   {
     id: 5,
@@ -105,7 +105,7 @@ const courses_list_2 = [
     ratings: 4.9,
     price: 75,
     is_favourite: false,
-    thumbnail: require("../assets/images/thumbnail_4.png"),
+    thumbnail: require("../assets/images/thumbnail_1.png"),
   },
 ];
 

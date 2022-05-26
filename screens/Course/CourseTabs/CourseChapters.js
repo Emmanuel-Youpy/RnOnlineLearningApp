@@ -15,8 +15,9 @@ import {
   dummyData,
   images,
 } from "../../../constants";
+import { connect } from "react-redux";
 
-const CourseChapters = () => {
+const CourseChapters = ({ appTheme }) => {
   function renderHeader() {
     return (
       <View
@@ -29,6 +30,7 @@ const CourseChapters = () => {
         <Text
           style={{
             ...FONTS.h2,
+            color: appTheme.textColor,
           }}
         >
           {dummyData?.course_details?.title}
@@ -84,7 +86,9 @@ const CourseChapters = () => {
               justifyContent: "center",
             }}
           >
-            <Text style={{ ...FONTS.h3, fontSize: 18 }}>
+            <Text
+              style={{ ...FONTS.h3, fontSize: 18, color: appTheme.textColor }}
+            >
               {dummyData?.course_details?.instructor?.name}
             </Text>
             <Text style={{ ...FONTS.body3, color: "gray" }}>
@@ -123,6 +127,7 @@ const CourseChapters = () => {
                   paddingHorizontal: SIZES.padding,
                   alignItem: "center",
                   height: 70,
+                  backgroundColor: appTheme.backgroundColor3,
                 }}
               >
                 {/* Icon */}
@@ -146,7 +151,9 @@ const CourseChapters = () => {
                     marginLeft: SIZES.radius,
                   }}
                 >
-                  <Text style={{ ...FONTS.h3 }}>{item.title}</Text>
+                  <Text style={{ ...FONTS.h3, color: appTheme.textColor }}>
+                    {item.title}
+                  </Text>
                   <Text style={{ color: COLORS.gray30, ...FONTS.body4 }}>
                     {item?.duration}
                   </Text>
@@ -165,7 +172,9 @@ const CourseChapters = () => {
                       marginLeft: SIZES.base,
                       width: 25,
                       height: 25,
-                      tintColor: item?.is_lock ? COLORS.additionalColor4 : null,
+                      tintColor: item?.is_lock
+                        ? COLORS.additionalColor4
+                        : "gray",
                     }}
                   />
                 </View>
@@ -208,6 +217,7 @@ const CourseChapters = () => {
             style={{
               flex: 1,
               ...FONTS.h2,
+              color: appTheme.textColor,
             }}
           >
             Popular Courses
@@ -247,9 +257,11 @@ const CourseChapters = () => {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={{ backgroundColor: appTheme.backgroundColor3 }}>
       <View style={{ alignItems: "center" }}>
-        <Text style={{ fontSize: 12 }}>Chapters</Text>
+        <Text style={{ fontSize: 12, color: appTheme.textColor }}>
+          Chapters
+        </Text>
       </View>
       {/* Header */}
       {renderHeader()}
@@ -265,4 +277,13 @@ const CourseChapters = () => {
   );
 };
 
-export default CourseChapters;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseChapters);

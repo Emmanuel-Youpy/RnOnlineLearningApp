@@ -1,43 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TextInput, Keyboard, FlatList, Image } from "react-native";
 import { IconButton, IconLabelButton } from "../../../components";
+import { connect } from "react-redux";
+
 import { COLORS, FONTS, SIZES, icons, dummyData } from "../../../constants";
 
-const CommentSection = ({ commentItem, commentOption, replies }) => {
-  return (
-    <View style={{ flexDirection: "row", marginTop: SIZES.padding }}>
-      {/* Profile Photo */}
-      <Image
-        source={commentItem?.profile}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 20,
-        }}
-      />
-      {/* Name & Comment Section */}
-      <View
-        style={{
-          flex: 1,
-          marginTop: 3,
-          marginLeft: SIZES.radius,
-        }}
-      >
-        {/* Name */}
-        <Text style={{ ...FONTS.h3 }}>{commentItem?.name}</Text>
-        {/* Comment */}
-        <Text style={{ ...FONTS.body4 }}>{commentItem?.comment}</Text>
+const CourseDiscussions = ({ appTheme }) => {
+  const CommentSection = ({ commentItem, commentOption, replies }) => {
+    return (
+      <View style={{ flexDirection: "row", marginTop: SIZES.padding }}>
+        {/* Profile Photo */}
+        <Image
+          source={commentItem?.profile}
+          style={{
+            width: 40,
+            height: 40,
+            borderRadius: 20,
+          }}
+        />
+        {/* Name & Comment Section */}
+        <View
+          style={{
+            flex: 1,
+            marginTop: 3,
+            marginLeft: SIZES.radius,
+          }}
+        >
+          {/* Name */}
+          <Text style={{ ...FONTS.h3, color: appTheme.textColor }}>
+            {commentItem?.name}
+          </Text>
+          {/* Comment */}
+          <Text style={{ ...FONTS.body4, color: appTheme.textColor }}>
+            {commentItem?.comment}
+          </Text>
 
-        {/* Comment Options */}
-        {commentOption}
-        {/* Replies */}
-        {replies}
+          {/* Comment Options */}
+          {commentOption}
+          {/* Replies */}
+          {replies}
+        </View>
       </View>
-    </View>
-  );
-};
-
-const CourseDiscussions = () => {
+    );
+  };
   const [footerPosition, setFooterPosition] = useState(0);
   const [footerHeight, setfooterHeight] = useState(60);
   useEffect(() => {
@@ -75,7 +80,8 @@ const CourseDiscussions = () => {
                     paddingVertical: SIZES.base,
                     borderTopWidth: 1,
                     borderBottomWidth: 1,
-                    backgroundColor: COLORS.gray10,
+                    borderColor: COLORS.gray20,
+                    backgroundColor: appTheme.backgroundColor3,
                   }}
                 >
                   {/* Comment */}
@@ -83,11 +89,11 @@ const CourseDiscussions = () => {
                     icon={icons.comment}
                     label={item?.no_of_comments}
                     iconStyle={{
-                      tintColor: COLORS.black,
+                      tintColor: appTheme.tintColor,
                     }}
                     labelStyle={{
                       marginLeft: 3,
-                      color: COLORS.black,
+                      color: appTheme.textColor,
                       ...FONTS.h4,
                     }}
                   />
@@ -97,10 +103,11 @@ const CourseDiscussions = () => {
                     label={item?.no_of_likes}
                     containerStyle={{
                       marginLeft: SIZES.radius,
+                      paddingLeft: 15,
                     }}
                     labelStyle={{
                       marginLeft: 3,
-                      color: COLORS.black,
+                      color: appTheme.textColor,
                       ...FONTS.h4,
                     }}
                   />
@@ -110,6 +117,7 @@ const CourseDiscussions = () => {
                       flex: 1,
                       textAlign: "right",
                       ...FONTS.h4,
+                      color: appTheme.textColor,
                     }}
                   >
                     {item?.posted_on}
@@ -142,7 +150,7 @@ const CourseDiscussions = () => {
                             label="Reply"
                             labelStyle={{
                               marginLeft: 5,
-                              color: COLORS.black,
+                              color: appTheme.textColor,
                               ...FONTS.h4,
                             }}
                           />
@@ -158,6 +166,7 @@ const CourseDiscussions = () => {
                               marginTop: 3,
                               color: COLORS.black,
                               ...FONTS.h4,
+                              color: appTheme.textColor,
                             }}
                           />
                           {/* Date */}
@@ -165,7 +174,7 @@ const CourseDiscussions = () => {
                             style={{
                               flex: 1,
                               textAlign: "right",
-
+                              color: appTheme.textColor,
                               ...FONTS.h4,
                             }}
                           >
@@ -196,7 +205,7 @@ const CourseDiscussions = () => {
           height: footerHeight,
           paddingHorizontal: SIZES.padding,
           paddingVertical: SIZES.radius,
-          backgroundColor: COLORS.gray10,
+          backgroundColor: appTheme.backgroundColor3,
         }}
       >
         <TextInput
@@ -240,9 +249,11 @@ const CourseDiscussions = () => {
   }
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.white }}>
+    <View style={{ flex: 1, backgroundColor: appTheme.backgroundColor3 }}>
       <View style={{ alignItems: "center" }}>
-        <Text style={{ fontSize: 12 }}>Discussions</Text>
+        <Text style={{ fontSize: 12, color: appTheme.textColor }}>
+          Discussions
+        </Text>
       </View>
 
       {/* Discussions */}
@@ -254,4 +265,13 @@ const CourseDiscussions = () => {
   );
 };
 
-export default CourseDiscussions;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDiscussions);

@@ -9,8 +9,10 @@ import {
   dummyData,
   TextButton,
 } from "../../../constants";
+import { connect } from "react-redux";
+import { Entypo } from "@expo/vector-icons";
 
-const CourseFiles = () => {
+const CourseFiles = ({ appTheme }) => {
   function renderStudents() {
     let students = [];
     if (dummyData?.course_details?.students.length > 3) {
@@ -21,7 +23,10 @@ const CourseFiles = () => {
     return (
       <View>
         {/* Title */}
-        <Text style={{ ...FONTS.h2, fontSize: 25 }}> Students</Text>
+        <Text style={{ ...FONTS.h2, fontSize: 25, color: appTheme.textColor }}>
+          {" "}
+          Students
+        </Text>
         {/* Students */}
         <View
           style={{
@@ -75,7 +80,9 @@ const CourseFiles = () => {
         }}
       >
         {/* Section Title */}
-        <Text style={{ ...FONTS.h2, fontSize: 25 }}>Files</Text>
+        <Text style={{ ...FONTS.h2, fontSize: 25, color: appTheme.textColor }}>
+          Files
+        </Text>
         {/* Files */}
         {dummyData?.course_details?.files.map((item, index) => {
           return (
@@ -98,15 +105,22 @@ const CourseFiles = () => {
                   marginLeft: SIZES.radius,
                 }}
               >
-                <Text style={{ ...FONTS.h2 }}>{item.name}</Text>
+                <Text style={{ ...FONTS.h2, color: appTheme.textColor }}>
+                  {item.name}
+                </Text>
                 <Text style={{ color: COLORS.gray30, ...FONTS.body3 }}>
                   {item?.author}
                 </Text>
-                <Text style={{ ...FONTS.body4 }}>{item?.upload_date}</Text>
+                <Text style={{ ...FONTS.body4, color: appTheme.textColor }}>
+                  {item?.upload_date}
+                </Text>
               </View>
 
               {/* Menu */}
-              <IconButton
+
+              <Entypo name="dots-three-horizontal" size={24} color="gray" />
+
+              {/* <IconButton
                 icon={icons.menu}
                 iconStyle={{
                   width: 25,
@@ -118,7 +132,7 @@ const CourseFiles = () => {
                   justifyContent: "center",
                   borderRadius: 25,
                 }}
-              />
+              /> */}
             </View>
           );
         })}
@@ -129,7 +143,7 @@ const CourseFiles = () => {
   return (
     <View>
       <View style={{ alignItems: "center" }}>
-        <Text style={{ fontSize: 12 }}>Files</Text>
+        <Text style={{ fontSize: 12, color: appTheme.textColor }}>Files</Text>
       </View>
       <ScrollView
         contentContainerStyle={{
@@ -146,4 +160,13 @@ const CourseFiles = () => {
   );
 };
 
-export default CourseFiles;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseFiles);

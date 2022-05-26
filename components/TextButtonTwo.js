@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { FONTS, COLORS } from "../constants";
 import { connect } from "react-redux";
 
-const TextButton = ({
+const TextButtonTwo = ({
   contentContainerStyle,
   disabled,
   label,
@@ -27,7 +27,7 @@ const TextButton = ({
           color: COLORS.white,
           ...FONTS.h3,
           ...labelStyle,
-          color: COLORS.black,
+          color: appTheme.textColor,
         }}
       >
         {label}
@@ -45,4 +45,4 @@ function mapDispatchToProps(dispatch) {
   return {};
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TextButton);
+export default connect(mapStateToProps, mapDispatchToProps)(TextButtonTwo);

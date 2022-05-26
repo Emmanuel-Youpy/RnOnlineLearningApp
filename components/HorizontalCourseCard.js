@@ -132,7 +132,7 @@ const HorizontalCourseCard = ({
             iconStyle={{ width: 15, height: 15, tintColor: COLORS.primary2 }}
             labelStyle={{
               marginLeft: 5,
-              color: COLORS.black,
+              color: appTheme.textColor,
               ...FONTS.h3,
             }}
           />

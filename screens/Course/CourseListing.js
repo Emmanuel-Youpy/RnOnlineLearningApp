@@ -37,12 +37,13 @@ import { SharedElement } from "react-navigation-shared-element";
 import { AntDesign } from "@expo/vector-icons";
 import { FlatList } from "react-native-gesture-handler";
 import { MaterialIcons } from "@expo/vector-icons";
+import { connect } from "react-redux";
 
 const AnimatedFlatList = Animated.createAnimatedComponent(FlatList);
 
 const HEADER_HEIGHT = 250;
 
-const CourseListing = ({ navigation, route }) => {
+const CourseListing = ({ navigation, route, appTheme }) => {
   const { category, sharedElementPrefix } = route.params;
 
   const flatListRef = React.useRef();
@@ -275,6 +276,7 @@ const CourseListing = ({ navigation, route }) => {
               style={{
                 flex: 1,
                 ...FONTS.body3,
+                color: appTheme?.textColor,
               }}
             >
               2,789 Results
@@ -334,7 +336,7 @@ const CourseListing = ({ navigation, route }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.white,
+        backgroundColor: appTheme?.backgroundColor3,
       }}
     >
       {/* Result */}
@@ -365,6 +367,15 @@ const CourseListing = ({ navigation, route }) => {
   };
 };
 
-export default CourseListing;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseListing);
 
 const styles = StyleSheet.create({});

@@ -51,7 +51,7 @@ const TwoPointSlider = ({
             <Text
               style={{
                 marginTop: 5,
-                color: COLORS.gray80,
+                color: COLORS.gray40,
                 ...FONTS.body3,
               }}
             >

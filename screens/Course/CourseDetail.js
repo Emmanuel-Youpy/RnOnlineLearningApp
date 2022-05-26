@@ -25,6 +25,8 @@ import { Video, AVPlaybackStatus } from "expo-av";
 import CourseChapters from "./CourseTabs/CourseChapters";
 import CourseFiles from "./CourseTabs/CourseFiles";
 import CourseDiscussions from "./CourseTabs/CourseDiscussions";
+import { connect } from "react-redux";
+import appTheme from "../../constants/theme";
 
 const course_details_tabs = constants.course_details_tabs.map(
   (course_details_tab) => ({
@@ -126,6 +128,7 @@ const Tabs = ({ scrollX, onTabPress }) => {
               style={{
                 ...FONTS.h3,
                 fontSize: SIZES.height > 800 ? 18 : 17,
+                color: COLORS.gray40,
               }}
             >
               {item.label}
@@ -137,7 +140,7 @@ const Tabs = ({ scrollX, onTabPress }) => {
   );
 };
 
-const CourseDetail = ({ navigation, route }) => {
+const CourseDetail = ({ navigation, route, appTheme }) => {
   const { selectedCourse } = route.params;
   const video = React.useRef(null);
   const [status, setStatus] = React.useState({});
@@ -364,7 +367,7 @@ const CourseDetail = ({ navigation, route }) => {
     <View
       style={{
         flex: 1,
-        backgroundColor: COLORS.white,
+        backgroundColor: appTheme.backgroundColor3,
       }}
     >
       {/* Header BAr */}
@@ -378,4 +381,13 @@ const CourseDetail = ({ navigation, route }) => {
   );
 };
 
-export default CourseDetail;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(CourseDetail);

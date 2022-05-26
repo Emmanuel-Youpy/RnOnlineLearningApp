@@ -14,6 +14,8 @@ import {
 } from "../components";
 import { COLORS, FONTS, SIZES, icons, constants } from "../constants";
 import TextButton from "./TextButton";
+import TextButtonTwo from "./TextButtonTwo";
+import { connect } from "react-redux";
 
 const ClassTypeOption = ({
   containerStyle,
@@ -56,53 +58,58 @@ const ClassTypeOption = ({
   );
 };
 
-const ClassLevelOption = ({
-  containerStyle,
-  classLevel,
-  isLastItem,
-  isSelected,
-  onPress,
+const FilterModel = ({
+  filterModalSharedValue1,
+  filterModalSharedValue2,
+  appTheme,
 }) => {
-  return (
-    <>
-      <TouchableOpacity
-        style={{
-          flexDirection: "row",
-          height: 50,
-          alignItems: "center",
-          ...containerStyle,
-        }}
-        onPress={onPress}
-      >
-        <Text
+  const ClassLevelOption = ({
+    containerStyle,
+    classLevel,
+    isLastItem,
+    isSelected,
+    onPress,
+  }) => {
+    return (
+      <>
+        <TouchableOpacity
           style={{
-            flex: 1,
-            ...FONTS.body3,
+            flexDirection: "row",
+            height: 50,
+            alignItems: "center",
+            ...containerStyle,
           }}
+          onPress={onPress}
         >
-          {classLevel.label}
-        </Text>
-        <Image
-          source={isSelected ? icons.checkbox_on : icons.checkbox_off}
-          resizeMode="contain"
-          style={{
-            width: 20,
-            height: 20,
-          }}
-        />
-      </TouchableOpacity>
-      {!isLastItem && (
-        <LineDivider
-          lineStyle={{
-            height: 1,
-          }}
-        />
-      )}
-    </>
-  );
-};
+          <Text
+            style={{
+              flex: 1,
+              ...FONTS.body3,
+              color: appTheme.textColor,
+            }}
+          >
+            {classLevel.label}
+          </Text>
+          <Image
+            source={isSelected ? icons.checkbox_on : icons.checkbox_off}
+            resizeMode="contain"
+            style={{
+              width: 20,
+              height: 20,
+            }}
+          />
+        </TouchableOpacity>
+        {!isLastItem && (
+          <LineDivider
+            lineStyle={{
+              height: 1,
+            }}
+          />
+        )}
+      </>
+    );
+  };
 
-const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
   const [selectedClassType, setSelectedClassType] = useState("");
   const [selectedClassLevel, setSelectedClassLevel] = useState("");
   const [selectedCreateWithin, setSelectedCreateWithin] = useState("");
@@ -164,7 +171,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
             flex: 1,
             boderRadius: SIZES.radius,
             borderWidth: 1,
-            backgroundColor: null,
+            backgroundColor: appTheme.tintColor,
           }}
           labelStyle={{
             color: COLORS.black,
@@ -225,7 +232,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
               width: SIZES.width,
               borderTopLeftRadius: 30,
               borderTopRightRadius: 30,
-              backgroundColor: COLORS.white,
+              backgroundColor: appTheme?.backgroundColor3,
             },
             filterModalContainerAnimatedStyle,
           ]}
@@ -245,18 +252,19 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
                 textAlign: "center",
                 fontSize: 30,
                 fontWeight: "bold",
+                color: appTheme?.textColor,
               }}
             >
               Filter
             </Text>
-            <TextButton
+            <TextButtonTwo
               label="Cancel"
               contentContainerStyle={{
                 width: 60,
                 backgroundColor: null,
               }}
               labelStyle={{
-                color: COLORS.black,
+                color: appTheme.textColor,
                 ...FONTS.body3,
               }}
               onPress={() => {
@@ -289,6 +297,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
               <Text
                 style={{
                   ...FONTS.h3,
+                  color: appTheme.textColor,
                 }}
               >
                 Class Type
@@ -326,6 +335,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
                 style={{
                   ...FONTS.h3,
                   fontWeight: "bold",
+                  color: appTheme.textColor,
                 }}
               >
                 Class Level
@@ -356,6 +366,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
                 style={{
                   ...FONTS.h3,
                   fontWeight: "bold",
+                  color: appTheme.textColor,
                 }}
               >
                 Created Within
@@ -369,7 +380,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
               >
                 {constants.created_within.map((item, index) => {
                   return (
-                    <TextButton
+                    <TextButtonTwo
                       key={`CreatedWithin-${index}`}
                       label={item?.label}
                       contentContainerStyle={{
@@ -410,6 +421,7 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
                 style={{
                   ...FONTS.h3,
                   fontWeight: "bold",
+                  color: appTheme.textColor,
                 }}
               >
                 Created Within
@@ -437,4 +449,13 @@ const FilterModel = ({ filterModalSharedValue1, filterModalSharedValue2 }) => {
   );
 };
 
-export default FilterModel;
+function mapStateToProps(state) {
+  return {
+    appTheme: state.appTheme,
+  };
+}
+function mapDispatchToProps(dispatch) {
+  return {};
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(FilterModel);

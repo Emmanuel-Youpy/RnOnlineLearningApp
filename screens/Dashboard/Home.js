@@ -260,6 +260,9 @@ const Home = ({ appTheme, toggleTheme }) => {
                 marginVertical: SIZES.padding,
                 marginTop: index == 0 ? SIZES.radius : SIZES.padding,
               }}
+              onPress={() =>
+                navigation.navigate("CourseDetail", { selectedCourse: item })
+              }
             />
           )}
           ItemSeparatorComponent={() => (
